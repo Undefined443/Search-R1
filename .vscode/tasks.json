@@ -1,0 +1,104 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // 构建语料库索引
+      "label": "Build Index",
+      "command": "${userHome}/.local/opt/miniforge3/envs/searchr1/bin/python",
+      "args": [
+        "search_r1/search/index_builder.py",
+        "--retrieval_method=e5",
+        "--model_path=intfloat/e5-base-v2",
+        "--corpus_path=${input:corpus_path}",
+        "--save_dir=data/corpus",
+        "--use_fp16",
+        "--max_length=256",
+        "--batch_size=512",
+        "--pooling_method=mean",
+        "--faiss_type=Flat",
+        "--save_embedding"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      }
+    },
+    {
+      // 训练数据集预处理（NQ）
+      "label": "nq_search",
+      "type": "shell",
+      "command": "${userHome}/.local/opt/miniforge3/envs/searchr1/bin/python",
+      "args": ["scripts/data_process/nq_search.py"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      }
+    },
+    {
+      // 训练数据集预处理（GSM8K）
+      "label": "gsm8k_search",
+      "type": "shell",
+      "command": "${userHome}/.local/opt/miniforge3/envs/searchr1/bin/python",
+      "args": ["scripts/data_process/gsm8k_search.py"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      }
+    },
+    {
+      // 启动检索服务器
+      "label": "Launch Retriever",
+      "type": "shell",
+      "command": "${userHome}/.local/opt/miniforge3/envs/retriever/bin/python",
+      "args": [
+        "search_r1/search/retrieval_server.py",
+        "--index_path=data/corpus/e5_Flat.index",
+        "--corpus_path=data/corpus/wiki-18.jsonl",
+        "--topk=3",
+        "--retriever_name=e5",
+        "--retriever_model=intfloat/e5-base-v2",
+        "--faiss_gpu"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "corpus_path",
+      "type": "promptString",
+      "description": "Enter the corpus path (.jsonl)",
+      "default": "data/corpus/wiki-18.jsonl"
+    }
+  ]
+}

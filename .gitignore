@@ -104,9 +104,6 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# vscode
-.vscode
-
 # Mac
 .DS_Store
 
