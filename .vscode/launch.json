@@ -30,7 +30,8 @@
       "cwd": "${workspaceFolder}",
       "type": "debugpy",
       "request": "launch",
-      "python": "${userHome}/.local/opt/miniforge3/envs/searchr1/bin/python",
+      // "python": "${userHome}/.local/opt/miniforge3/envs/searchr1/bin/python",
+      "python": "${workspaceFolder}/.venv/bin/python",
       "module": "verl.trainer.main_ppo",
       "args": [
         "data.train_files=data/gsm8k_search/train.parquet",  // NOTE: 修改数据集
@@ -57,7 +58,7 @@
         "actor_rollout_ref.actor.fsdp_config.optimizer_offload=true",
         "actor_rollout_ref.rollout.log_prob_micro_batch_size=128",  // NOTE: 修改 log prob micro batch size
         "actor_rollout_ref.rollout.tensor_model_parallel_size=1",
-        "actor_rollout_ref.rollout.name=vllm",
+        "actor_rollout_ref.rollout.name=hf",  // NOTE: 修改 rollout name
         "actor_rollout_ref.rollout.gpu_memory_utilization=0.6",
         "actor_rollout_ref.ref.log_prob_micro_batch_size=128",
         "actor_rollout_ref.ref.fsdp_config.param_offload=True",

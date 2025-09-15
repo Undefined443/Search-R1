@@ -12,14 +12,17 @@ WAND_PROJECT='Search-R1'
 # export BASE_MODEL='meta-llama/Llama-3.1-8B-Instruct'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-llama3.1-8b-it-em
 
-export BASE_MODEL='Qwen/Qwen2.5-3B'
-export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
+# export BASE_MODEL='Qwen/Qwen2.5-3B'
+# export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
 # export BASE_MODEL='Qwen/Qwen2.5-3B-Instruct'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B-Instruct'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-it-em
+
+export BASE_MODEL='Qwen/Qwen3-4B-Base'
+export EXPERIMENT_NAME=nq-search-r1-ppo-qwen3-4b-base-em
 
 # set -x
 export VLLM_ATTENTION_BACKEND=XFORMERS # vllm + qwen2-7b with flash_attn has some issues
@@ -51,7 +54,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.actor.fsdp_config.optimizer_offload=true \
     actor_rollout_ref.rollout.log_prob_micro_batch_size=128 \
     actor_rollout_ref.rollout.tensor_model_parallel_size=1 \
-    actor_rollout_ref.rollout.name=vllm \
+    actor_rollout_ref.rollout.name=hf \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.6 \
     actor_rollout_ref.ref.log_prob_micro_batch_size=128 \
     actor_rollout_ref.ref.fsdp_config.param_offload=True \
