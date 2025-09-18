@@ -9,10 +9,9 @@ numpy
 pandas
 pybind11
 ray
-tensordict<0.6
+tensordict
 tqdm
-transformers<4.48
-vllm<=0.6.3
+transformers
 wandb
 IPython
 matplotlib
